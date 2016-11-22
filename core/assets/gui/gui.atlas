@@ -1,0 +1,117 @@
+
+gui.png
+size: 512,64
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+button_down
+  rotate: false
+  xy: 2, 12
+  size: 50, 50
+  split: 3, 3, 3, 4
+  pad: 3, 4, 4, 4
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+button_hover
+  rotate: false
+  xy: 54, 12
+  size: 50, 50
+  split: 4, 6, 5, 5
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+button_up
+  rotate: false
+  xy: 106, 12
+  size: 50, 50
+  split: 4, 4, 4, 4
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+check_clear
+  rotate: false
+  xy: 454, 46
+  size: 16, 16
+  split: 4, 4, 4, 4
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+check_selected
+  rotate: false
+  xy: 454, 28
+  size: 16, 16
+  split: 4, 4, 4, 4
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+icon_button
+  rotate: false
+  xy: 262, 16
+  size: 46, 46
+  split: 6, 5, 5, 5
+  pad: 4, 5, 5, 5
+  orig: 46, 46
+  offset: 0, 0
+  index: -1
+icon_button_down
+  rotate: false
+  xy: 310, 16
+  size: 46, 46
+  split: 6, 5, 5, 5
+  pad: 4, 5, 5, 5
+  orig: 46, 46
+  offset: 0, 0
+  index: -1
+icon_button_units
+  rotate: false
+  xy: 358, 16
+  size: 46, 46
+  split: 6, 5, 5, 5
+  pad: 4, 5, 5, 5
+  orig: 46, 46
+  offset: 0, 0
+  index: -1
+icon_button_units_down
+  rotate: false
+  xy: 406, 16
+  size: 46, 46
+  split: 6, 5, 5, 5
+  pad: 4, 5, 5, 5
+  orig: 46, 46
+  offset: 0, 0
+  index: -1
+label_bg
+  rotate: false
+  xy: 158, 12
+  size: 50, 50
+  split: 3, 4, 3, 3
+  pad: 3, 3, 3, 3
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+menu_bg
+  rotate: false
+  xy: 210, 12
+  size: 50, 50
+  split: 3, 4, 3, 3
+  pad: 3, 3, 3, 3
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+slider_bg
+  rotate: false
+  xy: 2, 2
+  size: 8, 8
+  split: 3, 3, 3, 3
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+slider_knob
+  rotate: false
+  xy: 472, 46
+  size: 8, 16
+  split: 3, 3, 3, 3
+  orig: 8, 16
+  offset: 0, 0
+  index: -1
