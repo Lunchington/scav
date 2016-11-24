@@ -3,6 +3,7 @@ package com.breakfastcraft.scav.managers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -23,7 +24,7 @@ public final class ArtManager extends AssetManager {
 
 
     private Skin GUI_SKIN;
-    private TextureAtlas PLAYER;
+    private TextureAtlas SHIPS;
     private TextureAtlas DEFAULT;
 
     public void load(){
@@ -38,7 +39,8 @@ public final class ArtManager extends AssetManager {
     }
 
     private void init() {
-        PLAYER = get(Global.PLAYER_ATLAS, TextureAtlas.class);
+
+        SHIPS = get(Global.PLAYER_ATLAS, TextureAtlas.class);
         DEFAULT = get(Global.DEFAULT_ATLAS, TextureAtlas.class);
 
         GUI_SKIN = new Skin();
@@ -61,7 +63,7 @@ public final class ArtManager extends AssetManager {
 
     public Skin getGUI() { return GUI_SKIN; }
 
-    public TextureAtlas getPlayer() { return PLAYER; }
+    public TextureAtlas getShips() { return SHIPS; }
 
     public TextureAtlas getDefault() { return DEFAULT; }
 }

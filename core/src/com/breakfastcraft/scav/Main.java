@@ -1,7 +1,6 @@
 package com.breakfastcraft.scav;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.breakfastcraft.scav.managers.*;
 
 public class Main extends Game {

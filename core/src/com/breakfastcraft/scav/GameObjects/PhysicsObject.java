@@ -1,7 +1,9 @@
 package com.breakfastcraft.scav.GameObjects;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.breakfastcraft.scav.managers.ArtManager;
 
 /**
  * Created by Lunchington on 11/19/2016.
@@ -9,8 +11,8 @@ import com.badlogic.gdx.physics.box2d.*;
 public class PhysicsObject extends GameObject {
     protected Body body;
 
-    public PhysicsObject(Vector2 pos) {
-        super(pos);
+    public PhysicsObject(Vector2 pos, TextureAtlas atlas, String sprite) {
+        super(pos, ArtManager.getInstance().getShips(),"player");
     }
 
     @Override
@@ -34,11 +36,6 @@ public class PhysicsObject extends GameObject {
     @Override
     public void update(float delta) {
 
-    }
-
-    @Override
-    public void setPosition(float x, float y) {
-        this.body.setTransform(x,y,body.getAngle());
     }
 
     public void setBody(Body body) {

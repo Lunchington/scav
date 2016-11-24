@@ -1,6 +1,8 @@
 package com.breakfastcraft.scav.GameObjects;
 
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -13,19 +15,17 @@ public abstract class GameObject implements iGameObject {
     protected String name;
     protected Vector2 position;
     protected float rotation;
-    protected float scale;
 
+    protected Sprite sprite;
 
-    protected float width;
-    protected float height;
-    
-    private TextureRegion texture;
+    public GameObject( Vector2 pos, TextureAtlas atlas, String sprite) {
+        this(pos);
+        this.sprite = new Sprite(atlas.findRegion(sprite).getTexture());
+    }
 
-
-
-    public GameObject( Vector2 pos) {
+    public GameObject(Vector2 pos) {
         this.position = pos;
-        setTexture(ArtManager.getInstance().getDefault().findRegion("default"));
+        this.rotation = 0;
     }
 
     public float getX() { return position.x; }
@@ -33,8 +33,14 @@ public abstract class GameObject implements iGameObject {
         return position.y;
     }
 
-    public float getWidth() {return width; }
-    public float getHeight() {return height; }
+    public float getWidth() {return sprite.getWidth(); }
+    public float getHeight() {return sprite.getHeight(); }
+
+    public float getOriginX() { return  sprite.getWidth() /2; }
+    public float getOriginY() { return  sprite.getHeight() /2; }
+
+    public float getScaleX() { return  sprite.getScaleX(); }
+    public float getScaleY() { return  sprite.getScaleY(); }
 
     public void setPosition(float x, float y) {
         this.position = new Vector2(x,y);
@@ -46,20 +52,12 @@ public abstract class GameObject implements iGameObject {
     }
     public float getRotation() { return rotation; }
 
-    public void setTexture(TextureAtlas.AtlasRegion texture) {
-        this.texture = texture;
-        this.width = texture.getRegionWidth();
-        this.height = texture.getRegionWidth();
-        this.rotation = 0;
-        this.scale = 1;
-    }
-
     public float getRight() { return getX() + getWidth(); }
     public float getTop() { return getY() + getHeight(); }
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(texture,getX()- getWidth()/2,getY()- getHeight()/2,getWidth()/2,getHeight()/2,getWidth(),getHeight(),1,1,getRotation());
+        batch.draw(sprite,getX()- getWidth()/2,getY()- getHeight()/2,getOriginX(),getOriginY(), getWidth(),getHeight(),getScaleX(),getScaleY(),getRotation());
     }
 
     @Override

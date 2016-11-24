@@ -1,7 +1,9 @@
 package com.breakfastcraft.scav.GameObjects;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.breakfastcraft.scav.managers.ArtManager;
 
 public class Ship extends PhysicsObject{
 
@@ -14,20 +16,19 @@ public class Ship extends PhysicsObject{
     private float turnSpeed = 1f;
     private float lateralSpeed= 100f;
 
-    private float forwardSpeed= 5f;
+    private float forwardSpeed= 200f;
 
     private float currentThrust = 0f;
-    private float maxThrust =2f;
+    private float maxThrust =7f;
 
-    private float acceleration;
 
     private float weight;
 
     private float range;
 
 
-    public Ship(Vector2 pos) {
-        super(pos);
+    public Ship(Vector2 pos, TextureAtlas ships, String player) {
+        super(pos, ArtManager.getInstance().getShips(),"player");
     }
 
     @Override
@@ -70,29 +71,20 @@ public class Ship extends PhysicsObject{
             turning = -turnSpeed *MathUtils.degreesToRadians;
         }
 
-        if (isTurnThrustRight()) {
-            turning = -turnSpeed *MathUtils.degreesToRadians;
-        }
-
-
         if (isTurnThrustLeft()) {
             turning = turnSpeed *MathUtils.degreesToRadians;
         }
 
-        if (isTurnThrustRight()) {
-            turning = -turnSpeed *MathUtils.degreesToRadians;
-        }
 
-        move.nor();
+       // move.nor();sss
 
         body.setAngularVelocity(turning);
-        body.applyLinearImpulse(move, body.getPosition(), true);
+        body.applyForce(move, body.getWorldCenter(),true);
 
-        Vector2 velocity = body.getLinearVelocity();
-        float speed = velocity.len();
 
-        if(speed > maxThrust)
-            body.setLinearVelocity(velocity.scl(maxThrust / speed));
+
+        if(getCurrentThrust() > maxThrust)
+            body.setLinearVelocity(getCurrentVelocity().scl(maxThrust/getCurrentThrust()));
 
 
     }
@@ -133,5 +125,9 @@ public class Ship extends PhysicsObject{
     public void setBrakes(boolean brakes) { this.brakes = brakes; }
 
 
+    public float getCurrentThrust() {
+        return getCurrentVelocity().len();
+    }
+    public Vector2 getCurrentVelocity() { return body.getLinearVelocity(); }
 
 }

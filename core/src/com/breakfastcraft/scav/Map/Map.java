@@ -52,8 +52,7 @@ public class Map {
         this.mapChunksHeight = cHeight;
         chunks = new Chunk[cWidth][cHeight];
 
-        physicsWorld =  new World(new Vector2(), true);
-
+        physicsWorld =  new World( Vector2.Zero, true);
 /*
         float sX = camera.position.x - camera.viewportWidth/2;
         float sY = camera.position.y - camera.viewportHeight/2;

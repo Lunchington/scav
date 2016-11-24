@@ -54,12 +54,10 @@ public class GamePlayScreen extends AbstractScreen {
         gameInput = new GameInput(this);
         hudController = new HudController(stage);
 
-        gameCamera = new OrthographicCamera();
-        viewport = new FitViewport(Global.WIDTH,Global.HEIGHT,gameCamera);
+        gameCamera = new OrthographicCamera( Global.WIDTH, Global.HEIGHT);
 
 
         debugRenderer = new Box2DDebugRenderer();
-        gameCamera.setToOrtho(false, Global.WIDTH, Global.HEIGHT);
 
         map = new Map(3,3,gameCamera);
 
@@ -119,8 +117,11 @@ public class GamePlayScreen extends AbstractScreen {
     private void update(float delta) {
         float lerp = 25f;
 
-        float px = MathUtils.clamp(map.getPlayer().getX(), 32,map.getMapWorldWidth()-32);
-        float py = MathUtils.clamp(map.getPlayer().getY(), 32,map.getMapWorldHeight()-32);
+        Player p = map.getPlayer();
+
+        float px = MathUtils.clamp(p.getX() , p.getWidth(),map.getMapWorldWidth()-p.getWidth());
+        float py = MathUtils.clamp(p.getY(), p.getHeight(),map.getMapWorldHeight()-p.getHeight());
+
 
         map.getPlayer().setPosition(px,py);
 
@@ -157,7 +158,6 @@ public class GamePlayScreen extends AbstractScreen {
     @Override
     public void resize(int width, int height) {
         super.resize(width,height);
-        viewport.update(width, height);
 
     }
 

@@ -7,8 +7,7 @@ import com.breakfastcraft.scav.managers.ArtManager;
 public class Player extends Ship {
 
     public Player(Vector2 pos) {
-        super(pos);
-        setTexture(ArtManager.getInstance().getPlayer().findRegion("player"));
+        super(pos, ArtManager.getInstance().getShips(),"player");
     }
 
 
