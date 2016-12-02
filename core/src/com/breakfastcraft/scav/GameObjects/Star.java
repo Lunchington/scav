@@ -4,24 +4,23 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.breakfastcraft.scav.Global;
+import com.breakfastcraft.scav.managers.ArtManager;
+
+import static com.breakfastcraft.scav.Global.*;
 
 
 public class Star extends GameObject {
-    private int starSize;
 
     public Star(Vector2 pos) {
-        super(pos);
-        int starSize = MathUtils.random(4, 16);
-        this.starSize = starSize;
+        super(pos, ArtManager.getInstance().getStars(),"star");
 
-        Pixmap pixmap = new Pixmap(starSize, starSize, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.SLATE);
-        pixmap.fillCircle(starSize /2, starSize /2, starSize /2/2);
+        float starSize = MathUtils.random(0.1f , 0.5f);
 
-        this.sprite = new Sprite(new Texture(pixmap));
+        this.setScale(starSize);
+
     }
 
 

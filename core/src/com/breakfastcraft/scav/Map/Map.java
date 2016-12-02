@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class Map {
 
     private World physicsWorld;
+    private float accumulator = 0;
 
     private int mapChunksHeight;
     private int mapChunksWidth;
@@ -41,8 +42,8 @@ public class Map {
     public int getMapChunksHeight() { return  mapChunksHeight; }
     public int getMapChunksWidth() { return  mapChunksWidth; }
 
-    public int getMapWorldHeight() { return  mapChunksHeight * Global.CHUNKHEIGHT; }
-    public int getMapWorldWidth() { return  mapChunksWidth * Global.CHUNKWIDTH; }
+    public float getMapWorldHeight() { return  mapChunksHeight * Global.CHUNKHEIGHT; }
+    public float getMapWorldWidth() { return  mapChunksWidth * Global.CHUNKWIDTH; }
 
 
     public Map(int cHeight, int cWidth, Camera camera) {
@@ -72,7 +73,8 @@ public class Map {
     }
 
     public void update(float delta ) {
-        physicsWorld.step(1f/60f, 6, 2);
+        step(delta);
+
         player.update(delta);
 
         for (GameObject e : gameObjects) {
@@ -81,30 +83,43 @@ public class Map {
 
     }
 
+
+    public void step(float delta) {
+        float frameTime = Math.min(delta, 0.25f);
+
+        accumulator += frameTime;
+
+        while (accumulator >= Global.TIME_STEP) {
+            physicsWorld.step(Global.TIME_STEP, Global.VELOCITY_ITERATIONS, Global.POSITION_ITERATIONS);
+            accumulator -= Global.TIME_STEP;
+        }
+    }
+
+
     public void render(SpriteBatch batch) {
 
-        int startX = (int)(camera.position.x - camera.viewportWidth/2);
+        float startX = (int)(camera.position.x - camera.viewportWidth/2);
         if (startX < 0) startX = 0;
 
-        int startY = (int)(camera.position.y - camera.viewportHeight/2);
+        float startY = (int)(camera.position.y - camera.viewportHeight/2);
         if (startY < 0) startY = 0;
 
-        int endX = (int)(camera.position.x + camera.viewportWidth/2 );
+        float endX = (int)(camera.position.x + camera.viewportWidth/2 );
         if (endX > getMapWorldWidth()) endX = getMapWorldWidth();
 
-        int endY = (int)(camera.position.y + camera.viewportHeight/2 );
+        float endY = (int)(camera.position.y + camera.viewportHeight/2 );
         if (endY >getMapWorldHeight()) endY = getMapWorldHeight();
 
         for (Chunk[] chunk : chunks) {
             for (Chunk aChunk : chunk) {
                 for (Star e : aChunk.getStars())
-                    if (e.getX() >= startX && e.getRight() <= endX && e.getY() >= startY && e.getTop() <= endY)
+                    if (e.getRight() >= startX && e.getX() <= endX && e.getBottom() >= startY && e.getY() <= endY)
                         e.render(batch);
             }
         }
 
         for (GameObject e : gameObjects) {
-            if(e.getX() >= startX && e.getRight() <= endX && e.getY() >= startY && e.getTop() <= endY)
+            if (e.getRight() >= startX && e.getX() <= endX && e.getBottom() >= startY && e.getY() <= endY)
                 e.render(batch);
         }
 

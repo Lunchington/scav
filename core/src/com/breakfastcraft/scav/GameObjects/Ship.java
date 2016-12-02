@@ -13,13 +13,13 @@ public class Ship extends PhysicsObject{
     private boolean lateralThrustLeft,lateralThrustRight;
     private boolean turnThrustLeft,turnThrustRight;
 
-    private float turnSpeed = 1f;
-    private float lateralSpeed= 100f;
+    private float turnSpeed = 50f;
+    private float lateralSpeed= 25f;
 
-    private float forwardSpeed= 200f;
+    private float forwardSpeed= 1f;
 
     private float currentThrust = 0f;
-    private float maxThrust =7f;
+    private float maxThrust = 50f;
 
 
     private float weight;
@@ -35,36 +35,36 @@ public class Ship extends PhysicsObject{
     public void update(float delta) {
         super.update(delta);
 
-        Vector2 facing;
+        Vector2 facing = Vector2.Zero;
 
 
         Vector2 move = Vector2.Zero;
         float turning = 0f;
 
-        if (isBrakes())
-            body.setLinearDamping(0.05f);
-        else
-            body.setLinearDamping(0);
+
+
 
         if (isForwardThrust()) {
                 facing = body.getWorldVector(new Vector2(1,0));
-                move = facing.scl(forwardSpeed);
+                //move = facing.scl(forwardSpeed);
+                move = getMove(facing,forwardSpeed);
+
         }
 
         if (isReverseThrust()) {
             facing = body.getWorldVector(new Vector2(1,0));
-            move = facing.scl(-forwardSpeed);
+            move = getMove(facing,-forwardSpeed);
         }
 
 
         if (isLateralThrustLeft()) {
             facing = body.getWorldVector(new Vector2(0,1));
-            move = facing.scl(lateralSpeed);
+            move = getMove(facing,lateralSpeed);
         }
 
         if (isLateralThrustRight()) {
             facing = body.getWorldVector(new Vector2(0,1));
-            move = facing.scl(-lateralSpeed);
+            move = getMove(facing,-lateralSpeed);
         }
 
         if (isTurnThrustRight()) {
@@ -76,7 +76,7 @@ public class Ship extends PhysicsObject{
         }
 
 
-       // move.nor();sss
+        System.out.println(move);
 
         body.setAngularVelocity(turning);
         body.applyForce(move, body.getWorldCenter(),true);
@@ -87,6 +87,12 @@ public class Ship extends PhysicsObject{
             body.setLinearVelocity(getCurrentVelocity().scl(maxThrust/getCurrentThrust()));
 
 
+    }
+
+
+    public Vector2 getMove(Vector2 facing, float speed) {
+        facing.nor();
+        return facing.scl(speed);
     }
 
     public void setTurnThrustLeft(boolean turnThrust) {

@@ -8,6 +8,7 @@ public class Player extends Ship {
 
     public Player(Vector2 pos) {
         super(pos, ArtManager.getInstance().getShips(),"player");
+
     }
 
 

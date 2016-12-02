@@ -1,8 +1,10 @@
 package com.breakfastcraft.scav.GameObjects;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.breakfastcraft.scav.Global;
 import com.breakfastcraft.scav.managers.ArtManager;
 
 /**
@@ -15,27 +17,11 @@ public class PhysicsObject extends GameObject {
         super(pos, ArtManager.getInstance().getShips(),"player");
     }
 
-    @Override
-    public float getX() { return body.getPosition().x; }
-
-    @Override
-    public float getY() {
-        return body.getPosition().y;
-    }
-
-    @Override
-    public Vector2 getPosition() {
-        return body.getPosition();
-    }
-
-    @Override
-    public float getRotation() {
-        return (float) Math.toDegrees(body.getAngle());
-    }
 
     @Override
     public void update(float delta) {
-
+        setPosition(    body.getPosition().x, body.getPosition().y);
+        setRotation((float) Math.toDegrees(body.getAngle()));
     }
 
     public void setBody(Body body) {
@@ -47,11 +33,13 @@ public class PhysicsObject extends GameObject {
 
     public void setShape() {
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(getWidth()/2, getHeight()/2);
+        shape.setAsBox(getWidth()/2 / Global.PPM, getHeight()/2 / Global.PPM);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 1f;
+        fixtureDef.density = 0.5f;
+        fixtureDef.friction = 0.5f;
+        fixtureDef.restitution = 0.1f;
 
         getBody().createFixture(fixtureDef);
         shape.dispose();
@@ -60,8 +48,11 @@ public class PhysicsObject extends GameObject {
     public void init(World physicsWorld) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(position.x, position.y);
+        bodyDef.position.set(getX(),getY());
+        bodyDef.linearDamping = .01f;
         setBody(physicsWorld.createBody(bodyDef));
         setShape();
     }
+
+
 }

@@ -54,7 +54,7 @@ public class GamePlayScreen extends AbstractScreen {
         gameInput = new GameInput(this);
         hudController = new HudController(stage);
 
-        gameCamera = new OrthographicCamera( Global.WIDTH, Global.HEIGHT);
+        gameCamera = new OrthographicCamera( Global.V_WIDTH, Global.V_HEIGHT);
 
 
         debugRenderer = new Box2DDebugRenderer();
@@ -111,7 +111,8 @@ public class GamePlayScreen extends AbstractScreen {
         debugRenderer.render(map.getPhysicsWorld(), debugMatrix);
         stage.draw();
 
-        System.out.println(Gdx.graphics.getFramesPerSecond());
+        map.update(delta);
+
     }
 
     private void update(float delta) {
@@ -119,16 +120,21 @@ public class GamePlayScreen extends AbstractScreen {
 
         Player p = map.getPlayer();
 
-        float px = MathUtils.clamp(p.getX() , p.getWidth(),map.getMapWorldWidth()-p.getWidth());
-        float py = MathUtils.clamp(p.getY(), p.getHeight(),map.getMapWorldHeight()-p.getHeight());
+        float px = MathUtils.clamp(p.getX()  , p.getWorldWidth(),map.getMapWorldWidth()-p.getWorldWidth());
+        float py = MathUtils.clamp(p.getY(), p.getWorldHeight(),map.getMapWorldHeight()-p.getWorldHeight());
 
 
-        map.getPlayer().setPosition(px,py);
+        map.getPlayer().getBody().setTransform(px,py,p.getBody().getAngle());
+        p.update(delta);
 
         Vector3 position = gameCamera.position;
-
+        /*
         position.x+= (map.getPlayer().getX() - position.x) * lerp * delta;
         position.y+= (map.getPlayer().getY() - position.y) * lerp * delta;
+        */
+
+        position.x = p.getX();
+        position.y = p.getY();
 
         float minX = gameCamera.zoom * (gameCamera.viewportWidth /2);
         float maxX = map.getMapWorldWidth() - minX;
@@ -145,20 +151,16 @@ public class GamePlayScreen extends AbstractScreen {
                 0);
         gameCamera.update();
 
-        map.update(delta);
         hudController.update(delta);
 
-        Chunk c = map.getChunkFromWorldPos(pInput.getPlayerPosition());
-        Vector2 chunkPos = c.getObjChunkPostionFromWorld(map.getPlayer().getPosition());
-
-        thrust.setText(String.format("Chunk info: %s \n Player info: worldPos: %s ChunKPos: %s",c.toString(),map.getPlayer().getPosition(),chunkPos));
-    }
+ }
 
 
     @Override
     public void resize(int width, int height) {
         super.resize(width,height);
-
+        gameCamera.viewportHeight = (Global.V_WIDTH/ width) * height;
+        gameCamera.update();
     }
 
     @Override

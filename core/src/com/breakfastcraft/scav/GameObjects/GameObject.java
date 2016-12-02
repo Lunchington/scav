@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.breakfastcraft.scav.Global;
 import com.breakfastcraft.scav.managers.ArtManager;
 
 
@@ -36,8 +37,11 @@ public abstract class GameObject implements iGameObject {
     public float getWidth() {return sprite.getWidth(); }
     public float getHeight() {return sprite.getHeight(); }
 
-    public float getOriginX() { return  sprite.getWidth() /2; }
-    public float getOriginY() { return  sprite.getHeight() /2; }
+    public float getWorldWidth() {return sprite.getWidth() / Global.PPM ; }
+    public float getWorldHeight() {return sprite.getHeight() / Global.PPM; }
+
+    public float getOriginX() { return  sprite.getOriginX(); }
+    public float getOriginY() { return  sprite.getOriginY(); }
 
     public float getScaleX() { return  sprite.getScaleX(); }
     public float getScaleY() { return  sprite.getScaleY(); }
@@ -53,17 +57,25 @@ public abstract class GameObject implements iGameObject {
     public float getRotation() { return rotation; }
 
     public float getRight() { return getX() + getWidth(); }
-    public float getTop() { return getY() + getHeight(); }
+    public float getBottom() { return getY() + getHeight(); }
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(sprite,getX()- getWidth()/2,getY()- getHeight()/2,getOriginX(),getOriginY(), getWidth(),getHeight(),getScaleX(),getScaleY(),getRotation());
+        batch.draw(sprite,
+                getX() -getWidth() /2 / Global.PPM,
+                getY()- getHeight()/2 / Global.PPM ,
+                getOriginX()/ Global.PPM ,
+                getOriginY() / Global.PPM,
+                getWorldWidth(),
+                getWorldHeight(),
+                getScaleX(),getScaleY(),getRotation());
     }
 
     @Override
     public void update(float delta){}
 
 
-
-
+    public void setScale(float scale) {
+        this.sprite.setScale(scale);
+    }
 }

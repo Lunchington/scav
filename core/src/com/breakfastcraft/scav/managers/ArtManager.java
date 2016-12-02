@@ -25,11 +25,14 @@ public final class ArtManager extends AssetManager {
 
     private Skin GUI_SKIN;
     private TextureAtlas SHIPS;
+    private TextureAtlas STARS;
+
     private TextureAtlas DEFAULT;
 
     public void load(){
         load(Global.PLAYER_ATLAS, TextureAtlas.class);
         load(Global.DEFAULT_ATLAS, TextureAtlas.class);
+        load(Global.STAR_ATLAS, TextureAtlas.class);
 
         while(!update())
         {
@@ -42,6 +45,7 @@ public final class ArtManager extends AssetManager {
 
         SHIPS = get(Global.PLAYER_ATLAS, TextureAtlas.class);
         DEFAULT = get(Global.DEFAULT_ATLAS, TextureAtlas.class);
+        STARS = get(Global.STAR_ATLAS, TextureAtlas.class);
 
         GUI_SKIN = new Skin();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Global.font));
@@ -64,7 +68,9 @@ public final class ArtManager extends AssetManager {
     public Skin getGUI() { return GUI_SKIN; }
 
     public TextureAtlas getShips() { return SHIPS; }
-
     public TextureAtlas getDefault() { return DEFAULT; }
+
+    public TextureAtlas getStars() { return STARS; }
+
 }
 
