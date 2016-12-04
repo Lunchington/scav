@@ -51,9 +51,8 @@ public abstract class GameObject implements iGameObject {
     }
     public Vector2 getPosition() { return position; }
 
-    public void setRotation(float rotation) {
-        this.rotation = rotation;
-    }
+    public void setRotation(float rotation) {this.rotation = (float) Math.toDegrees(rotation);}
+
     public float getRotation() { return rotation; }
 
     public float getRight() { return getX() + getWidth(); }

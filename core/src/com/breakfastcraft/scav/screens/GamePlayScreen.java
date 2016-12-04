@@ -64,7 +64,7 @@ public class GamePlayScreen extends AbstractScreen {
         Player p = new Player(map.getChunk(2,2).getChunkWorldCenter());
         map.setPlayer(p);
 
-        pInput = new PlayerMovement(map.getPlayer());
+        pInput = new PlayerMovement(map.getPlayer(), gameCamera);
 
         debug = new Table();
     }
@@ -98,9 +98,9 @@ public class GamePlayScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        debugMatrix = batch.getProjectionMatrix().cpy();
+        //debugMatrix = batch.getProjectionMatrix().cpy();
+        //stage.setDebugAll(Main.DEV_MODE);
 
-        stage.setDebugAll(Main.DEV_MODE);
         update(delta);
 
         batch.setProjectionMatrix(gameCamera.combined);
@@ -108,9 +108,9 @@ public class GamePlayScreen extends AbstractScreen {
         batch.begin();
             map.render(batch);
         batch.end();
-        debugRenderer.render(map.getPhysicsWorld(), debugMatrix);
-        stage.draw();
+       // debugRenderer.render(map.getPhysicsWorld(), debugMatrix);
 
+        stage.draw();
         map.update(delta);
 
     }

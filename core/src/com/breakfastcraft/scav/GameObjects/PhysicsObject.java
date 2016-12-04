@@ -21,7 +21,7 @@ public class PhysicsObject extends GameObject {
     @Override
     public void update(float delta) {
         setPosition(    body.getPosition().x, body.getPosition().y);
-        setRotation((float) Math.toDegrees(body.getAngle()));
+        setRotation(body.getAngle());
     }
 
     public void setBody(Body body) {
@@ -37,8 +37,8 @@ public class PhysicsObject extends GameObject {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 0.5f;
-        fixtureDef.friction = 0.5f;
+        fixtureDef.density = 0f;
+        fixtureDef.friction = 0f;
         fixtureDef.restitution = 0.1f;
 
         getBody().createFixture(fixtureDef);
@@ -49,7 +49,7 @@ public class PhysicsObject extends GameObject {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(getX(),getY());
-        bodyDef.linearDamping = .01f;
+        bodyDef.linearDamping = 0f;
         setBody(physicsWorld.createBody(bodyDef));
         setShape();
     }

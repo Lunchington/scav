@@ -8,23 +8,14 @@ import com.breakfastcraft.scav.managers.ArtManager;
 public class Ship extends PhysicsObject{
 
     private boolean brakes;
-    private boolean forwardThrust,reverseThrust;
+    private boolean thrust;
 
-    private boolean lateralThrustLeft,lateralThrustRight;
-    private boolean turnThrustLeft,turnThrustRight;
-
-    private float turnSpeed = 50f;
-    private float lateralSpeed= 25f;
 
     private float forwardSpeed= 1f;
 
-    private float currentThrust = 0f;
     private float maxThrust = 50f;
 
 
-    private float weight;
-
-    private float range;
 
 
     public Ship(Vector2 pos, TextureAtlas ships, String player) {
@@ -42,46 +33,16 @@ public class Ship extends PhysicsObject{
         float turning = 0f;
 
 
-
-
-        if (isForwardThrust()) {
+        if (isThrust()) {
                 facing = body.getWorldVector(new Vector2(1,0));
                 //move = facing.scl(forwardSpeed);
                 move = getMove(facing,forwardSpeed);
 
         }
 
-        if (isReverseThrust()) {
-            facing = body.getWorldVector(new Vector2(1,0));
-            move = getMove(facing,-forwardSpeed);
-        }
-
-
-        if (isLateralThrustLeft()) {
-            facing = body.getWorldVector(new Vector2(0,1));
-            move = getMove(facing,lateralSpeed);
-        }
-
-        if (isLateralThrustRight()) {
-            facing = body.getWorldVector(new Vector2(0,1));
-            move = getMove(facing,-lateralSpeed);
-        }
-
-        if (isTurnThrustRight()) {
-            turning = -turnSpeed *MathUtils.degreesToRadians;
-        }
-
-        if (isTurnThrustLeft()) {
-            turning = turnSpeed *MathUtils.degreesToRadians;
-        }
-
-
-        System.out.println(move);
 
         body.setAngularVelocity(turning);
         body.applyForce(move, body.getWorldCenter(),true);
-
-
 
         if(getCurrentThrust() > maxThrust)
             body.setLinearVelocity(getCurrentVelocity().scl(maxThrust/getCurrentThrust()));
@@ -91,45 +52,13 @@ public class Ship extends PhysicsObject{
 
 
     public Vector2 getMove(Vector2 facing, float speed) {
-        facing.nor();
         return facing.scl(speed);
     }
 
-    public void setTurnThrustLeft(boolean turnThrust) {
-        this.turnThrustLeft = turnThrust;
+    public void setThrust(boolean thrust) {
+        this.thrust = thrust;
     }
-    public boolean isTurnThrustLeft() { return turnThrustLeft; }
-
-    public void setTurnThrustRight(boolean turnThrust) {
-        this.turnThrustRight = turnThrust;
-    }
-    public boolean isTurnThrustRight() { return turnThrustRight; }
-
-
-    public void setLateralThrustLeft(boolean lateralThrust) {
-        this.lateralThrustLeft = lateralThrust;
-    }
-    public boolean isLateralThrustLeft() { return lateralThrustLeft; }
-
-    public void setLateralThrustRight(boolean lateralThrust) {
-        this.lateralThrustRight = lateralThrust;
-    }
-    public boolean isLateralThrustRight() { return lateralThrustRight; }
-
-
-    public void setForwardThrust(boolean thrust) {
-        this.forwardThrust = thrust;
-    }
-    public boolean isForwardThrust() { return forwardThrust; }
-
-    public void setReverseThrust(boolean thrust) {
-        this.reverseThrust = thrust;
-    }
-    public boolean isReverseThrust() { return reverseThrust; }
-
-    public boolean isBrakes() { return brakes; }
-    public void setBrakes(boolean brakes) { this.brakes = brakes; }
-
+    public boolean isThrust() { return thrust; }
 
     public float getCurrentThrust() {
         return getCurrentVelocity().len();
